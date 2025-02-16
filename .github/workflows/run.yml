@@ -6,8 +6,22 @@ on:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
+      - name: start docker on windows
+        if: runner.os == 'Windows'
+        run: Start-Service docker    
+      - name: install docker on macos
+        if: runner.os == 'macOS'
+        run: |
+          brew install --cask docker
+          open /Applications/Docker.app
+          sleep 3
+          docker version && echo OK || echo NOPE
+          sleep 60
       - name: docker version
         run: docker version
       - name: clone
