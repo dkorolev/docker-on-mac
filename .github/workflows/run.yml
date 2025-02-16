@@ -18,10 +18,11 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install --cask docker
+          echo STARTING
           open /Applications/Docker.app
           sleep 3
           docker version && echo OK || echo NOPE
-          sleep 60
+          sleep 600
       - name: docker version
         run: docker version
       - name: clone
